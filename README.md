@@ -9,11 +9,30 @@ On one occurrence it waits.
 
 ## How a project reads it
 
+Two shapes are in use today, and the difference is whether the reader was cloned from GitHub.
+
+**As a submodule** — `doctor-house`, since 2026-08-30. This repository is public, so no
+credentials are involved:
+
+```bash
+git submodule add https://github.com/ub1dev/lessons.git .claude/lessons
+ln -s ../lessons/rules .claude/rules/lessons   # keeps every `.claude/rules/lessons/…` citation
+```
+
+**As a symlink to a sibling checkout** — `gaston`, still. Valid only where both repositories
+sit side by side under the same parent:
+
 ```bash
 ln -s ~/dev/ub1dev/lessons/rules .claude/rules/lessons
 ```
 
-`.claude/rules/` follows symlinks. One file, one home, no second copy to keep in step.
+`.claude/rules/` follows symlinks. One file, one home, no second copy to keep in step — a
+submodule is a pointer, not a copy, so it does not reopen the divergence below.
+
+**Whichever shape, something in the reader must fail when the link does not resolve.** A dead
+link raises nothing; it produces an agent that never read these rules and behaves plausibly.
+`doctor-house` found that with a gate printing green, twice in CI, on a checkout containing
+none of these files.
 
 ## Why this is not a copy
 
