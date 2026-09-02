@@ -10,6 +10,20 @@ and it gets written down as one and cited as evidence afterwards.
 an absurd value and check the output changes.
 — `gaston: docs/guidelines/testing.md`
 
+## A caveat written down is not a caveat honoured
+A test whose own comment says *"this assumes a machine with a desktop session"* and which then
+asserts it unconditionally three lines later does not assume — it **claims**. The assumption was
+recorded and nothing enforced it, which is the same shape as an uncertainty flagged and then
+rested on (`40-debugging.md`), committed inside an instrument.
+**The form that holds: the test creates the condition it measures.** Bind a loopback port and
+require the probe to find *that* port on *this test's own pid*, rather than counting whatever the
+machine happens to be running. It is also stricter — it names the pid and the port instead of
+counting — so honouring the caveat cost nothing and bought precision.
+**And note where the revelation came from.** The local gate did nothing wrong; the flaw was
+visible only from a machine that did not resemble the author's. That is the first argument for
+running a gate somewhere else, before the one about catching regressions.
+— `doctor-house: crates/doctor-probe/tests/sockets.rs`
+
 ## Before believing a tool that returns zero, run it on a case where it must return something
 Empty output is well-formed whether the subject is empty or the command is looking in the wrong
 place, and zero is the one value a broken instrument returns spontaneously. Corollary: **a new

@@ -34,6 +34,21 @@ link raises nothing; it produces an agent that never read these rules and behave
 `doctor-house` found that with a gate printing green, twice in CI, on a checkout containing
 none of these files.
 
+## Who writes here
+
+More than one Claude session reaches this repository, and two hands in one tree with no rule is
+the failure these projects spend their days avoiding. The rule is small because the content is
+additive and rarely conflicts:
+
+- **Whoever writes a rule commits it, in the same turn.** No file is reserved; the only
+  prohibition is committing somebody else's uncommitted work as your own. Work left uncommitted
+  is work that does not survive, and `rules/50-gates-and-automation.md` says why.
+- **A rule enters on its second occurrence**, and the second occurrence may come from a different
+  project than the first. That is the point of the repository, and it is why the citation check
+  resolves any sibling project rather than one.
+- **Sharpen an existing entry before adding a near-twin.** Two rules for one lesson is how a
+  corpus stops being read.
+
 ## Why this is not a copy
 
 `~/dev/ub1dev/standards/` tried the other shape: copy into each project, fold refinements
