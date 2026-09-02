@@ -14,3 +14,7 @@ Each entry has the same three parts:
 What is *not* here: anything that has cost once. A single occurrence is an anecdote, and an
 anecdote promoted to a rule is how a standards file fills up with someone's taste.
 See `gaston: docs/architecture/adr/0042-a-rule-that-has-cost-twice-is-an-adr.md`.
+
+`05-vocabulary.md` is the exception to the three parts: it holds no rule, only the words the
+rules are written in, and the products' own words that collide with them. Read it when a term
+here seems to mean two things — it probably does, and the other meaning is usually a domain's.
