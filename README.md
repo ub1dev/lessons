@@ -48,6 +48,10 @@ additive and rarely conflicts:
   resolves any sibling project rather than one.
 - **Sharpen an existing entry before adding a near-twin.** Two rules for one lesson is how a
   corpus stops being read.
+- **Reading a project is not working on it.** A rule cites a case, and resolving that citation
+  means opening a file in another repository — that is all it means. Every project here runs on
+  its own track, with its own people and its own sessions, and a citation confers no standing to
+  write in it. The check reads siblings; it does not touch them.
 
 ## Why this is not a copy
 
