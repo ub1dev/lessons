@@ -10,6 +10,23 @@ and it gets written down as one and cited as evidence afterwards.
 an absurd value and check the output changes.
 — `gaston: docs/guidelines/testing.md`
 
+## A guard needs a specimen of the condition, not a simulation of its label
+A version check tested by editing the version field of a **current** file tests the comparison
+and nothing else. The guard's real input is a file of the *older shape*, and until one exists
+nobody has run its actual case.
+Paid literally: the check was **unreachable** in the one situation it was written for. `replay`
+deserialised the whole capture and compared versions afterwards, so an old file died on its first
+missing field and the reader got `missing field 'process_group' at line 47` instead of *this file
+is format 1*. The existing test passed throughout, because it tampered with the version of a file
+whose shape was current — the easy half.
+**The tell**: ask what the guard's input looks like in the wild, then ask whether the fixture is
+that thing or a hand-set flag standing for it.
+**Corollary, paid the same hour**: *adding* a required field is as breaking as changing one — a
+recording written before the field existed cannot be read after it — and it does not feel like
+it, which is why a comment claiming the opposite survived from the day the file was written.
+— `doctor-house: crates/doctor-probe/tests/record_replay.rs`
+— `gaston: docs/guidelines/testing.md` §"A test that cannot express the fault it guards does not guard it"
+
 ## A caveat written down is not a caveat honoured
 A test whose own comment says *"this assumes a machine with a desktop session"* and which then
 asserts it unconditionally three lines later does not assume — it **claims**. The assumption was
