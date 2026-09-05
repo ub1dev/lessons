@@ -5,6 +5,19 @@ A guard is a second thing to keep, and it only fires on the paths someone though
 that cannot represent the wrong state fires everywhere, for free, at compile time.
 — `gaston: docs/guidelines/engineering-standards.md`
 
+## A form that nothing asks is a guard nobody wrote
+A type that makes the wrong state inexpressible earns nothing until some caller can reach the
+question it answers. Three times in one repository a form argued as *the face cannot print the
+wrong thing* was sabotaged — the wrong arm made to return the value anyway — and **the whole
+suite stayed green**, because every caller had already branched before the question was asked.
+An `Option` nothing unwraps, a constructor parameter nothing omits, a refusal every path
+short-circuits before reaching: each was correct and each was proving nothing.
+**Sabotage the form, and if the suite stays green, write the test that asks it directly** — a
+pure function called with the one case the live path can never produce. The form is still the
+right shape; the test is what makes it a claim.
+— `doctor-house: crates/doctor-core/tests/standing.rs`
+— `doctor-house: crates/doctor-cli/src/consent.rs`
+
 ## Replace the whole value, or protect the field. Never assign it
 A partial assignment is the shape that survives a refactor and means something else afterwards.
 
