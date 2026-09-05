@@ -34,3 +34,15 @@ marked *to be verified*, nothing may rest on it until it is.
 Before a mass rename, find every expectation whose order derives from the renamed values (a
 sorted-map key, a `sort_by`, a sorted literal). Searching costs one command; finding them
 through red costs one gate per round.
+
+## `git checkout --` restores a file to what exists, and what exists is not your afternoon
+Three times in one repository, undoing a deliberate sabotage with `git checkout -- <file>`
+also undid the uncommitted work sitting in the same file, and the only copy of that work was the
+diff in the terminal. The command did what it says; the mistake was sabotaging a tree that held
+something not yet committed. The third time was inside the commit that added a guard against
+forgetting things.
+**Sabotage a committed tree.** Commit the work in progress first (`wip`, squashed later), then
+break it, then restore against something that exists. Uncommitted work is what `checkout --`
+eats.
+— `doctor-house: scripts/check-adr-index.sh`
+

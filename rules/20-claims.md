@@ -47,3 +47,24 @@ and after any scripted edit read the diff of the comment lines:
 Found once, and only because the formatter happened to print those lines while complaining
 about something three lines away.
 — `gaston: docs/guidelines/testing.md` §« Une édition ancrée sur un motif textuel… »
+
+## A count written in prose is a claim the tree already contradicts
+*"Seventeen today"*, *"the eighteen decisions, all signed"*, *"nothing is proposed today"* — each
+was true when typed and false within a day, and each sat beside the table that was the actual
+list. A written count is a restatement of something versioned, and it goes stale silently
+because nothing reads it against its source. Three in two days, two of them in one file that
+contradicted itself two lines apart.
+**Never write the count of things the tree lists; point at the list.** Where the number is
+wanted anyway, a check reads the files and asks the prose about them — never the other way
+round, because a restated list is the same defect with more digits.
+— `doctor-house: scripts/check-adr-index.sh`
+
+## A status line carried from one turn to the next is a claim nobody re-made
+*"The sampler keeps running"* sat under *Unchanged* in two successive briefs while the sampler
+had died; nobody had read anything to write it, and the word *unchanged* is what made it look
+read. A line copied forward inherits the authority of the turn that first earned it and none of
+its evidence.
+**A standing section names only decisions.** The state of anything that runs is written the
+turn it was read from a file, with what was read, or not at all.
+— `doctor-house: docs/BRIEF.md`
+
