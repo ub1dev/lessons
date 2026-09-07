@@ -39,7 +39,29 @@ counting — so honouring the caveat cost nothing and bought precision.
 **And note where the revelation came from.** The local gate did nothing wrong; the flaw was
 visible only from a machine that did not resemble the author's. That is the first argument for
 running a gate somewhere else, before the one about catching regressions.
+
+**The sharper half, paid four more times: the caveat is usually not written at all.** Above, the
+assumption was at least recorded. In four assertions written two days apart the dependence on the
+host was invisible until the host changed, and each looked like a statement about the code:
+
+- *the kept capture is unchanged after a short run* — true until the machine entered `warning`,
+  which outranks the entry the test seeded, so the code did exactly what it is specified to do;
+- *the loop is within its budget* — true until the machine is the struggling one the product
+  exists for, where a capture measured 1304 ms against a 137 ms median;
+- *something was kept* — nothing is kept when no sample could be ranked, which is deliberate;
+- *two samples fitted into one second* — under the gate's own load the first took two.
+
+**The tell is one question, and it is not about comments**: *would this assertion still be true
+on a machine that is busy, under pressure, or slow?* If the answer depends on the host, the
+assertion is about the host. Two ways out, and the second is the one that keeps the check:
+make the test build the condition it measures, or **assert a property the host cannot move** —
+a loop that stopped early reports a fraction of the span it was given, whatever the machine is
+doing, while the number of samples it fitted into that span is the machine's answer and not the
+code's.
+**And where an assertion must be about the host** — a budget on real hardware is — *the failure
+message says what the host was doing*, or a red cannot be told from a regression.
 — `doctor-house: crates/doctor-probe/tests/sockets.rs`
+— `doctor-house: crates/doctor-cli/tests/sample.rs`
 
 ## Before believing a tool that returns zero, run it on a case where it must return something
 Empty output is well-formed whether the subject is empty or the command is looking in the wrong
