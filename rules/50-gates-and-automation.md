@@ -6,10 +6,23 @@ Without them the run that reports "3 failed" has not looked at the rest, and a c
 it is a claim about a partial state. Fixing three and re-running is how a fourth stays hidden
 for an afternoon.
 
-## A pipe replaces the exit code with the last command's
+## A pipe replaces the exit code with the last command's — and `head` also kills the run
 `cmd | tail -3` exits with `tail`'s status. A run with two compilation errors once printed
 "FMT OK" and reported zero failures. Redirect to a file and read the command's own exit code;
 in a script, `set -o pipefail`.
+
+**The second face is worse, because the run does not finish.** `gate.sh | grep … | head -40`
+gave `head` its forty lines at the TEST stage; `head` exited, the gate took `SIGPIPE` and died
+four minutes in. The output ends mid-run and reads exactly like a run that finished — the same
+stage lines, no error, nothing saying *cut*. The tell was arithmetic and nearly missed: `time`
+printed 4:47 for the pipeline and 3:25 for `head`. **Never put `head` on a long-running
+producer**; the same redirect fixes both faces at once.
+
+**The third face is the idiom that reports nothing.** `${PIPESTATUS[0]}` is bash; under zsh it
+expands to empty, so the line prints `exit=` and a shell that never ran the check looks like a
+check that passed. zsh spells it `${pipestatus[1]}` — one-based, different name. **Capture into
+a variable and read `$?` on the next line**, which is the same in both shells and needs no
+memory of which one is running.
 
 ## A `pgrep -f` guard matches its own command line
 `until ! pgrep -f "cargo test"; do sleep 10; done` never exits — the waiting shell's own
@@ -20,6 +33,31 @@ or a marker file.
 
 **These three are one family**: a tool answering a question about itself, or about part of
 itself, without anyone writing a false sentence.
+
+## A check's green is about its scope, and its scope is smaller than its name
+Paid twice in two days, in both available shapes, and neither reading was a lie.
+
+**Between tools**: `cargo deny` green while the forge counted nineteen alerts. `cargo deny`
+reads `Cargo.lock` and stops there — **nothing in the gate read `pnpm-lock.yaml`**, and
+eighteen of the nineteen were npm. A whole dependency policy, written and enforced, over one
+of the two lockfiles in the repository.
+
+**Inside one tool**: the remaining one was Rust, and the same green covered it too. The
+advisory class `unsound` sat at its default `none` because the ADR had named `vulnerability`
+and `unmaintained` and not the third class. The knob was not turned off by anyone; it was
+never named, which is quieter.
+
+**The operative move, before quoting a green against somebody else's count**: enumerate what
+the check *reads* and which classes it is *configured to act on*. A tool named after a whole
+subject answers about the file it opens. And when two counters disagree, the first question is
+what each one reads — not which is wrong, because usually neither is.
+
+**Corollary on the forge's number**: it is a snapshot of the last push it scanned. Before
+treating it as a disagreement, compare each alert's patched version against the lockfile you
+just pushed — the two readings that agreed on one alert out of twenty were the ranges and the
+lockfile, not the two dashboards.
+— `gaston: scripts/audit-npm.sh`
+— `gaston: deny.toml`
 
 ## A gate that runs while the tree is being edited measures nothing
 Its green reports a snapshot it does not name. One gate at a time, nothing written while it
