@@ -19,7 +19,12 @@ set -euo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 siblings="${SIBLINGS_ROOT:-$here/..}"
 
-missing=0; found=0; unchecked=0; declare -A absent=()
+missing=0; found=0; unchecked=0
+# No associative array: macOS ships bash 3.2, and `declare -A` aborted this script on
+# the very machine these rules are written on — it had never run where it is written.
+# A space-delimited set of names costs two lines and runs everywhere.
+# — rules/50-gates-and-automation.md, "someone must have seen it run"
+absent=" "
 
 while IFS= read -r citation; do
   body="${citation//\`/}"
@@ -28,7 +33,9 @@ while IFS= read -r citation; do
   [ -z "$project" ] && continue
   found=$((found + 1))
   if [ ! -d "$siblings/$project" ]; then
-    unchecked=$((unchecked + 1)); absent["$project"]=1; continue
+    unchecked=$((unchecked + 1))
+    case "$absent" in *" $project "*) ;; *) absent="$absent$project " ;; esac
+    continue
   fi
   if [ ! -e "$siblings/$project/$path" ]; then
     echo "MISSING: $project/$path"
@@ -43,6 +50,6 @@ fi
 
 echo "$found citations · $missing missing · $unchecked unchecked"
 if [ "$unchecked" -gt 0 ]; then
-  echo "  (not checked out beside this repository: ${!absent[*]})"
+  echo "  (not checked out beside this repository:${absent% })"
 fi
 [ "$missing" -eq 0 ]
