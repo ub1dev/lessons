@@ -59,6 +59,32 @@ lockfile, not the two dashboards.
 — `gaston: scripts/audit-npm.sh`
 — `gaston: deny.toml`
 
+## A git command's reach is the one it names, not the one you had in mind
+Paid on two different commands, in two repositories, and neither ever misbehaved.
+
+**`git checkout -- <file>` restores to what exists — and what exists is not your afternoon.**
+Three times, undoing a deliberate sabotage also undid the uncommitted work sitting in the same
+file, whose only copy was the diff in the terminal. The third time was inside the commit adding
+a guard against forgetting things.
+
+**`git add <directory>` stages what the directory holds — and what it holds is not what you
+wrote.** Twice in one session a file nobody was supposed to commit rode into an unrelated commit
+that way; the second reached the remote. Both times the file was never named, only contained.
+
+**The test, before any git command that takes a path**: *what else is under that path?* It is
+not a question about the command — the command is documented and correct — it is a question
+about the difference between the set you named and the set you meant.
+
+**Two remedies, and the second is the one that lasts.** Commit before you sabotage, and name
+files instead of directories: those are habits, and a habit that has failed twice will fail a
+third time. Where one file must never be committed, the control is a **refusal at commit time**
+— not a warning, because a control that only prints is a control people learn to scroll past.
+And a refusal is bypassable by design (`--no-verify`), which is the whole of what it buys:
+the mistake becomes deliberate instead of distracted.
+— `doctor-house: scripts/check-adr-index.sh`
+— `gaston: scripts/hooks/pre-commit`
+— `gaston: docs/DEBT.md` §DEBT-009
+
 ## A gate that runs while the tree is being edited measures nothing
 Its green reports a snapshot it does not name. One gate at a time, nothing written while it
 runs, and check that no source file is newer than the log before reading it.
