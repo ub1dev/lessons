@@ -31,8 +31,25 @@ long-running job; three such waiters were once left spinning, one for two days, 
 they were queued behind never started. Use `pgrep -x`, the bracket trick (`"[c]argo test"`),
 or a marker file.
 
-**These three are one family**: a tool answering a question about itself, or about part of
-itself, without anyone writing a false sentence.
+**The mirror variant, and the remedy above walks straight into it: `pgrep -x` names a tool
+the job runs, not the job.** A thirteen-stage gate was waited on with
+`until ! pgrep -x cargo; do sleep 15; done` — the recommended fix, correctly applied. It
+reported *finished* four stages early, because three of the stages run `tsc`, `eslint` and
+`vitest` and there is no cargo process during them. The first wait never ends; this one ends
+too soon, and **the early end is worse**, because a wait that returns looks like the thing it
+was waiting for succeeded. It was believed for a full message.
+
+So the two failures are not opposites, they are one question asked badly: *what am I actually
+waiting for?* `-f` too wide matches the waiter; `-x` on a tool matches only part of the job.
+**Wait on the job's own process** — the script, by a pattern that cannot match the waiting
+shell (`pgrep -f "[g]ate.sh"`) — or on a marker the job writes when it exits.
+
+**The tell was arithmetic, and it is the same tell as `head` on a long producer**: the log said
+one stage alone took 1077 s, and the waiter had returned moments after it. When a wait ends,
+compare its elapsed time against the durations the job itself printed before trusting it.
+
+**These are one family**: a tool answering a question about itself, or about part of itself,
+without anyone writing a false sentence.
 
 ## A check's green is about its scope, and its scope is smaller than its name
 Paid twice in two days, in both available shapes, and neither reading was a lie.
