@@ -106,5 +106,20 @@ repository. The one script that ran all six stages lived in a session scratch di
 unversioned, hard-coding its author's home path. A control that lives beside the repo does not
 survive the session, is never re-read, and appears in no audit — including the ones looking for it.
 
+**The variant that is worse, because it looks like the opposite.** The same workflow, once it
+did have a remote, later ran nothing for nine days — a billing failure on the account meant no
+job ever *started*.
+What made it survive nine days is that the run list was neither empty nor absent: it was **full
+of crosses**, fifty of them, each carrying a real commit title and a three-second duration.
+**A list of failures reads as work.** A red is the one state nobody audits, because a red is
+already the thing you were watching for; and "the CI is red again" is a sentence that gets said
+about a repository for weeks without anyone opening a run.
+**So the one-second check is not *is there a run* and not *is it green* — it is *did a job
+start*.** Empty, absent, and never-started are three different silences, and only the third
+one decorates itself.
+And its corollary for the fix: a workflow that cannot run must be **turned off**, not left to
+keep manufacturing evidence of checking that never happened. Suspending it is also the only
+version of the fact that survives the session.
+
 ## A repository that rewrites a developer's git config on checkout has helped itself to their machine
 Hooks are opt-in, once per clone, and the opt-in is documented rather than automated.
